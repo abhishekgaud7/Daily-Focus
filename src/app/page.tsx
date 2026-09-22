@@ -12,6 +12,7 @@ import { NewBlockModal } from "@/components/NewBlockModal";
 import { DailyKickoffModal } from "@/components/DailyKickoffModal";
 import { AIOptimizerModal } from "@/components/AIOptimizerModal";
 import { StartupGuideModal } from "@/components/StartupGuideModal";
+import { DailyStatsWidget } from "@/components/DailyStatsWidget";
 import { DailyBlock } from "@/types/database";
 import { 
   getCurrentTimeMinutes, 
@@ -39,6 +40,7 @@ export default function Dashboard() {
     deleteBlock,
     rescheduleBlockToNextSlot,
     shiftMorningBlocks,
+    resetToSeedBlocks,
   } = useScheduleEngine();
 
   // Alert & Chime Engine
@@ -72,6 +74,32 @@ export default function Dashboard() {
       setIsKickoffOpen(true);
       localStorage.setItem("dincharya_kickoff_seen_date", today);
     }
+
+    // Keyboard Shortcuts
+    const handleKeyDown = (e: KeyboardEvent) => {
+      const activeTag = document.activeElement?.tagName.toLowerCase();
+      if (activeTag === "input" || activeTag === "textarea") return;
+
+      if (e.key === "n" || e.key === "N") {
+        e.preventDefault();
+        setNewBlockInitialStart("10:00");
+        setIsNewBlockOpen(true);
+      } else if (e.key === "b" || e.key === "B") {
+        e.preventDefault();
+        setIsKickoffOpen(true);
+      } else if (e.key === "o" || e.key === "O") {
+        e.preventDefault();
+        setIsOptimizerOpen(true);
+      } else if (e.key === "Escape") {
+        setIsNewBlockOpen(false);
+        setIsOptimizerOpen(false);
+        setIsKickoffOpen(false);
+        setIsStartupGuideOpen(false);
+      }
+    };
+
+    window.addEventListener("keydown", handleKeyDown);
+    return () => window.removeEventListener("keydown", handleKeyDown);
   }, []);
 
   // Compute Active/Running Block
@@ -196,6 +224,12 @@ export default function Dashboard() {
           onDeleteBlock={deleteBlock}
           onRescheduleBlock={rescheduleBlockToNextSlot}
           onEmptySlotClick={handleEmptySlotClick}
+        />
+
+        {/* Focus Adherence & Analytics Summary */}
+        <DailyStatsWidget
+          blocks={blocks}
+          onResetSeed={resetToSeedBlocks}
         />
 
       </main>

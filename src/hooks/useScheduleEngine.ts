@@ -87,6 +87,13 @@ export function useScheduleEngine() {
     await refreshBlocks();
   };
 
+  const resetToSeedBlocks = async () => {
+    if (typeof window !== "undefined") {
+      localStorage.removeItem("dincharya_daily_blocks");
+    }
+    await refreshBlocks();
+  };
+
   return {
     selectedDate,
     setSelectedDate,
@@ -99,5 +106,6 @@ export function useScheduleEngine() {
     deleteBlock,
     rescheduleBlockToNextSlot,
     shiftMorningBlocks,
+    resetToSeedBlocks,
   };
 }

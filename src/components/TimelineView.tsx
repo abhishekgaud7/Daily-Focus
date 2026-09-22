@@ -101,20 +101,38 @@ export function TimelineView({
     }
   };
 
+  const [categoryFilter, setCategoryFilter] = useState<string>("All");
+
+  const categoriesList = ["All", "Deep Work", "Learning", "Health", "Break", "Admin"];
+
   return (
     <div className="relative rounded-2xl border border-zinc-800 bg-zinc-950/60 p-4 sm:p-6 backdrop-blur-sm shadow-xl">
       
-      {/* Header Info */}
-      <div className="mb-4 flex items-center justify-between border-b border-zinc-800/80 pb-3">
+      {/* Header Info & Category Filter */}
+      <div className="mb-4 flex flex-col sm:flex-row sm:items-center justify-between gap-3 border-b border-zinc-800/80 pb-3">
         <div className="flex items-center gap-2">
           <Clock className="h-4 w-4 text-emerald-400" />
           <h3 className="text-sm font-semibold tracking-wide text-zinc-200 uppercase">
             Hourly Schedule Canvas (06:00 – 23:00)
           </h3>
         </div>
-        <span className="text-xs text-zinc-500">
-          Click any empty row to schedule a block
-        </span>
+
+        {/* Filter Pills */}
+        <div className="flex items-center gap-1.5 flex-wrap">
+          {categoriesList.map((cat) => (
+            <button
+              key={cat}
+              onClick={() => setCategoryFilter(cat)}
+              className={`rounded-lg px-2.5 py-1 text-[11px] font-medium transition-all ${
+                categoryFilter === cat
+                  ? "bg-emerald-500 text-zinc-950 font-bold shadow-sm shadow-emerald-500/20"
+                  : "border border-zinc-800 bg-zinc-900/60 text-zinc-400 hover:text-zinc-200 hover:border-zinc-700"
+              }`}
+            >
+              {cat}
+            </button>
+          ))}
+        </div>
       </div>
 
       {/* Main Timeline Canvas */}
@@ -199,6 +217,7 @@ export function TimelineView({
             const isRunning = block.status === "running";
             const isCompleted = block.status === "completed";
             const isSkipped = block.status === "skipped";
+            const isFilteredOut = categoryFilter !== "All" && block.category !== categoryFilter;
 
             return (
               <div
@@ -216,6 +235,10 @@ export function TimelineView({
                 } ${
                   isSkipped 
                     ? "opacity-40 line-through border-zinc-800 bg-zinc-950/40" 
+                    : ""
+                } ${
+                  isFilteredOut 
+                    ? "opacity-15 grayscale scale-[0.98] pointer-events-none" 
                     : ""
                 }`}
                 style={{
