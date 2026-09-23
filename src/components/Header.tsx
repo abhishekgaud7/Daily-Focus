@@ -27,6 +27,7 @@ interface HeaderProps {
   onOpenOptimizer: () => void;
   onOpenKickoff: () => void;
   onOpenStartupGuide: () => void;
+  onLoadStudyPlan?: () => void;
   totalBlocks: number;
   totalHours: number;
   completedBlocks: number;
@@ -39,6 +40,7 @@ export function Header({
   onOpenOptimizer,
   onOpenKickoff,
   onOpenStartupGuide,
+  onLoadStudyPlan,
   totalBlocks,
   totalHours,
   completedBlocks,
@@ -179,6 +181,18 @@ export function Header({
             <Laptop className="h-3.5 w-3.5 text-sky-400" />
             <span className="hidden lg:inline">OS Startup</span>
           </button>
+
+          {/* 10h Study Plan Preset Trigger */}
+          {onLoadStudyPlan && (
+            <button
+              onClick={onLoadStudyPlan}
+              className="flex items-center gap-1.5 rounded-lg border border-emerald-500/40 bg-emerald-500/15 px-3 py-1.5 text-xs font-bold text-emerald-300 hover:bg-emerald-500 hover:text-zinc-950 transition-all shadow-sm"
+              title="Apply 10-Hour Intensive Study Roadmap: Sigma Web Dev + Java Full Stack + Database + Communication"
+            >
+              <Sparkles className="h-3.5 w-3.5" />
+              <span>10h Study Plan</span>
+            </button>
+          )}
 
           {/* Add New Block Button */}
           <button

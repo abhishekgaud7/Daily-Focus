@@ -79,7 +79,16 @@ export function DailyStatsWidget({ blocks, onResetSeed }: DailyStatsWidgetProps)
         </div>
 
         {/* Action Controls */}
-        <div className="flex items-center gap-2">
+        <div className="flex items-center gap-2 flex-wrap">
+          <button
+            onClick={onResetSeed}
+            className="flex items-center gap-1.5 rounded-lg border border-emerald-500/40 bg-emerald-500/15 px-3 py-1.5 text-xs font-bold text-emerald-300 hover:bg-emerald-500 hover:text-zinc-950 transition-all shadow-md shadow-emerald-500/10 active:scale-95"
+            title="Load 10-Hour Intensive Mastery Plan: Sigma Web Dev + Java Full Stack + Database + Communication"
+          >
+            <Sparkles className="h-3.5 w-3.5" />
+            <span>Load 10h Study Plan</span>
+          </button>
+
           <button
             onClick={exportScheduleJson}
             className="flex items-center gap-1.5 rounded-lg border border-zinc-800 bg-zinc-950 px-2.5 py-1.5 text-xs text-zinc-400 hover:border-zinc-700 hover:text-zinc-200 transition-colors"
@@ -87,15 +96,6 @@ export function DailyStatsWidget({ blocks, onResetSeed }: DailyStatsWidgetProps)
           >
             <Download className="h-3.5 w-3.5" />
             <span>Export JSON</span>
-          </button>
-
-          <button
-            onClick={onResetSeed}
-            className="flex items-center gap-1.5 rounded-lg border border-zinc-800 bg-zinc-950 px-2.5 py-1.5 text-xs text-zinc-400 hover:border-zinc-700 hover:text-zinc-200 transition-colors"
-            title="Reset to default recommended schedule"
-          >
-            <RotateCcw className="h-3.5 w-3.5" />
-            <span>Reset Default</span>
           </button>
         </div>
 

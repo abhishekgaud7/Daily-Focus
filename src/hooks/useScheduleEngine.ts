@@ -2,7 +2,7 @@
 
 import { useState, useEffect, useCallback } from "react";
 import { DailyBlock, Profile } from "@/types/database";
-import { dbService } from "@/lib/supabase";
+import { dbService, getDefaultSeedBlocks } from "@/lib/supabase";
 import { getTodayDateString, findNextFreeSlot, timeToMinutes, minutesToTime, calculateEndTime } from "@/utils/timeUtils";
 
 export function useScheduleEngine() {
@@ -89,7 +89,8 @@ export function useScheduleEngine() {
 
   const resetToSeedBlocks = async () => {
     if (typeof window !== "undefined") {
-      localStorage.removeItem("dincharya_daily_blocks");
+      const fresh = getDefaultSeedBlocks();
+      localStorage.setItem("dincharya_daily_blocks", JSON.stringify(fresh));
     }
     await refreshBlocks();
   };

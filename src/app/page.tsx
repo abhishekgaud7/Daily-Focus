@@ -153,6 +153,7 @@ export default function Dashboard() {
         onOpenOptimizer={() => setIsOptimizerOpen(true)}
         onOpenKickoff={() => setIsKickoffOpen(true)}
         onOpenStartupGuide={() => setIsStartupGuideOpen(true)}
+        onLoadStudyPlan={resetToSeedBlocks}
         totalBlocks={totalBlocks}
         totalHours={totalHours}
         completedBlocks={completedBlocks}
